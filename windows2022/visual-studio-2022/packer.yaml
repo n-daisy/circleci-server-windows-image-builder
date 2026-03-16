@@ -119,6 +119,14 @@ provisioners:
   #   elevated_password: "{{.WinRMPassword}}"
   #   script: "windows2022/provision-scripts/ConfigureRemotingForAnsible.ps1"
 
+  - type: powershell
+    elevated_user: '{{ user "windows_user" }}'
+    elevated_password: "{{.WinRMPassword}}"
+    inline:
+      - "choco config set --name webRequestTimeoutSeconds --value 600"
+      - "choco config set --name commandExecutionTimeoutSeconds --value 14400"
+      - "choco feature enable --name=usePackageRepositoryOptimizations"
+
   - type: ansible
     playbook_file: "ansible/windows-playbook.yml"
     user: ansible
