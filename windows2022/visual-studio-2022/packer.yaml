@@ -40,7 +40,7 @@ builders:
     winrm_username: '{{ user "windows_user" }}'
     winrm_insecure: true
     winrm_use_ssl: true
-    winrm_timeout: "30m"
+    winrm_timeout: "60m"
     tags:
       circle_build_url: '{{ user "circle_build_url" }}'
       circle_job_name: '{{ user "circle_job_name" }}'
@@ -123,7 +123,7 @@ provisioners:
     playbook_file: "ansible/windows-playbook.yml"
     user: ansible
     keep_inventory_file: true
-    extra_arguments: ["-vv", "--connection", "packer", "--extra-vars", "ansible_user={{user `windows_user`}}", "--extra-vars", "ansible_password={{.WinRMPassword}}", "--extra-vars", "ansible_shell_executable=None", "--extra-vars", "ansible_shell_type=powershell", "--extra-vars", "ansible_winrm_server_cert_validation=ignore", "--extra-vars",  "@windows2022/software.yml", "--tags", "create_users"]
+    extra_arguments: ["-vv", "--connection", "packer", "--extra-vars", "ansible_user={{user `windows_user`}}", "--extra-vars", "ansible_password={{.WinRMPassword}}", "--extra-vars", "ansible_shell_executable=None", "--extra-vars", "ansible_shell_type=powershell", "--extra-vars", "ansible_winrm_server_cert_validation=ignore", "--extra-vars", "ansible_winrm_read_timeout_sec=1800", "--extra-vars",  "@windows2022/software.yml", "--tags", "create_users"]
     use_proxy: false
 
 # TODO: Change the ansible_password !
@@ -131,7 +131,7 @@ provisioners:
     playbook_file: "ansible/windows-playbook.yml"
     user: ansible
     keep_inventory_file: true
-    extra_arguments: ["-vvvv", "--connection", "packer", "--extra-vars", "ansible_user=circleci", "--extra-vars", "ansible_password=gFo8.UbL-@Ln*q-m", "--extra-vars", "ansible_shell_executable=None", "--extra-vars", "ansible_shell_type=powershell", "--extra-vars", "ansible_winrm_server_cert_validation=ignore", "--extra-vars",  "@windows2022/software.yml", "--tags", "build"]
+    extra_arguments: ["-vvvv", "--connection", "packer", "--extra-vars", "ansible_user=circleci", "--extra-vars", "ansible_password=gFo8.UbL-@Ln*q-m", "--extra-vars", "ansible_shell_executable=None", "--extra-vars", "ansible_shell_type=powershell", "--extra-vars", "ansible_winrm_server_cert_validation=ignore", "--extra-vars", "ansible_winrm_read_timeout_sec=1800", "--extra-vars",  "@windows2022/software.yml", "--tags", "build"]
     use_proxy: false
 
   - type: powershell
